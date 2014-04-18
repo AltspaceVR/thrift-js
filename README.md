@@ -16,12 +16,14 @@ This library can be used to
 
 ## Examples
 
-### Deserialization from thrift binary array buffer to thrift object 
+### Deserialization from thrift binary byte array to javascript object 
+
+See  [examples/](https://github.com/amalakar/thrift-js/tree/master/example) for full source code.
 
 Consider the following thrift struct.
 
     struct User {
-       1: optional i64 id = 0;
+       1: optional i32 ssn = 0;
        2: optional string name = "unknown";
        3: optional string email = "unknown";
     }
@@ -45,6 +47,8 @@ Include the following in the html page in the same order:
 Following javascript would decode the binary object decoded as base64 string:
 
     var base64Str = "CAABAAAAKgsAAgAAAANCb2ILAAMAAAAPYm9iQGV4YW1wbGUuY29tAA=="
+    
+    // See index.html for b64toUint8Array method
     var thriftData = b64toUint8Array(base64Str)
 
     var buffer = new Buffer(thriftData.length);
