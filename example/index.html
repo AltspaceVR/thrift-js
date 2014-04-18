@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>Thrift example</title>
+  </head>
+<body>
+Thrift example:
+</body>
+
+<script type="text/javascript" src="../js/util.js"></script>
+<script type="text/javascript" src="../js/thrift.js"></script>
+<script type="text/javascript" src="../js/buffer.js"></script>
+<script type="text/javascript" src="../js/transport.js"></script>
+<script type="text/javascript" src="../js/int64.js"></script>
+<script type="text/javascript" src="../js/protocol.js"></script>
+<script type="text/javascript" src="gen-js/user_types.js"></script>
+
+
+<script language="javascript" type="text/javascript" defer>
+ function b64toUint8Array(base64) {
+    var binaryString =  window.atob(base64);
+    var len = binaryString.length;
+    var bytes = new Uint8Array( len );
+    for (var i = 0; i < len; i++)        {
+        var ascii = binaryString.charCodeAt(i);
+        bytes[i] = ascii;
+    }
+    return bytes.buffer;
+  } 
+
+
+  var base64Str = "CAABAAAAKgsAAgAAAANCb2ILAAMAAAAPYm9iQGV4YW1wbGUuY29tAA=="
+  var thriftData = b64toUint8Array(base64Str)
+
+  var buffer = new Buffer(thriftData.length);
+  buffer.view = new DataView(thriftData)
+
+  var transport = new TFramedTransport(buffer);
+  var protocol = new TBinaryProtocol(transport);
+  var user = new User(); 
+
+  user.read(protocol);
+  alert("Parsed successfully! \n ssn = " + user.ssn + ", name = " + user.name + ", email = " + user.email)
+</script>
+</html>
+
